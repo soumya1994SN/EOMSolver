@@ -5,3 +5,4 @@
 
 `2DBoxsolver.py` : Solves Eq. (4.3.1) in the thesis as a function of time. 
 
+`EOMSolver` requires `Intelpython` and the recent `SciPy` and `NumPy` libraries. 
