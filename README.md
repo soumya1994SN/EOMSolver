@@ -5,4 +5,10 @@
 
 `2DBoxsolver.py` : Solves Eq. (4.3.1) in the thesis as a function of time. 
 
-`EOMSolver` requires `Intelpython` and the recent `SciPy` and `NumPy` libraries. 
+`EOMSolver` requires `Intelpython` and the recent `SciPy` and `NumPy` libraries. The code is written in polarization vector language. The inputs that need to be supplied are 
+- The three components of the polarization vectors for all velocity modes and spatial locations at time t = 0. 
+- Spatial discretizations
+- Time discretization $N_t$.
+- Velocity discretizations. 
+
+
