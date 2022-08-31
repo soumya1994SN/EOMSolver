@@ -8,7 +8,7 @@
 `EOMSolver` requires `Intelpython` and the recent `SciPy` and `NumPy` libraries. The code is written in polarization vector language. The inputs that need to be supplied are 
 - The three components of the polarization vectors for all velocity modes and spatial locations at time t = 0. 
 - Spatial discretizations
-- Time discretization $N_t$.
+- Time discretization.
 - Velocity discretizations. 
 
 
