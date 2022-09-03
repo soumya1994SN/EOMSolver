@@ -11,6 +11,4 @@
 - Number of discretized bins in time ( ${N}_{t}$)
 - Number of discretized bins in velocity ( ${N}_{vel}$)
 
-The output data is for $\mathsf{S}_{\vec{v}}[\vec{r}, t]$ at each $\vec{r}, t$ and $\vec{v}$ points and generated as a .npy file. 
-
-
+The output data is for $\mathsf{S}_{\vec{v}}[\vec{r}, t]$ at each $\vec{r}, t$ and $\vec{v}$ points and generated as a .npy file. The .npy files have shape () and 
