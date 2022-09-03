@@ -7,9 +7,9 @@
 
 `EOMSolver` requires `Intelpython` and the recent `SciPy` and `NumPy` libraries. The code is written in polarization vector language. The inputs that need to be supplied are 
 - The initial condition for all the three components of the polarization vectors of all velocity modes at each spatial location. 
-- Number of discretized bins in space <img src="https://latex.codecogs.com/svg.image?\left(N_{sp}\right)" title="https://latex.codecogs.com/svg.image?\left(N_{sp}\right)" />
-- Number of discretized bins in time ($N_t$)
-- Number of discretized bins in velocity ($N_{vel}$)
+- Number of discretized bins in space ( ${N}_{sp}$)
+- Number of discretized bins in time ( ${N}_{t}$)
+- Number of discretized bins in velocity ( ${N}_{vel}$)
 
 
 
