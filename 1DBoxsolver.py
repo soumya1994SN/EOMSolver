@@ -7,8 +7,8 @@ from numpy import ma
 import time
 import math
 Configurations = np.genfromtxt('Configurations1Dbox.txt')[1, :]
-x_ini = Configurations[0]
-x_fin = Configurations[1]
+x_min = Configurations[0]
+x_max = Configurations[1]
 N_sp = Configurations[2]
 v_min = Configurations[3]
 v_max = Configurations[4]
@@ -17,17 +17,19 @@ t_min = Configurations[6]
 t_max = Configurations[7]
 N_t = Configurations[8]
 N = N_sp*N_vel*3
-def func(t, tot_function):   
+x_arr = np.linspace(x_min, x_max, N_sp)
+v = np.linspace(v_min, v_max, N_vel)
+t = np.linspace(t_min, t_max, N_t)
+def func(t, Polarization_vector):   
     Interval = x_fin-x_ini
-    rhs = np.reshape(tot_function, N).astype(np.complex64)
-    rho = np.reshape(rhs, (N_sp, N_vel, 3)).astype(np.complex64)
-    gradient0 = np.zeros(N).astype(np.complex64)
-    gradient1 = np.reshape(gradient0, (N_sp, N_vel, 3)).astype(np.complex64)
-    vel_arr = np.reshape(np.zeros(N_vel*2).astype(np.complex64), (N_vel, 2 ))
-    vel_arr1 = np.linspace(-1, 1, 128).astype(np.complex64)
-    for i in range(128):
-        vel_arr[i, :] = vel_arr1[i]
-    vel_arr[:, 0] = 1j
+    S = np.reshape(Polarization_vector, N).astype(np.complex64)
+    Stensor = np.reshape(S, (N_sp, N_vel, 3)).astype(np.complex64)
+    Advection = np.zeros(N).astype(np.complex64)
+    Advectiontensor = np.reshape(Advection, (N_sp, N_vel, 3)).astype(np.complex64)
+    veltensor = np.reshape(np.zeros(N_vel*2).astype(np.complex64), (N_vel, 2 ))
+    for i in range(N_vel):
+        veltensor[i, :] = v_x[i]
+    veltensor[:, 0] = 1j
     Selfpart0 = np.einsum('ij,ki...->kj...', vel_arr, rho)
     Selfpart1 = -np.einsum('ij,kj...->ki...', vel_arr, Selfpart0)*(vel_arr1[1]-vel_arr1[0])
     tot_Ham = Selfpart1
