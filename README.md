@@ -11,4 +11,6 @@
 - Number of discretized bins in time ( ${N}_{t}$)
 - Number of discretized bins in velocity ( ${N}_{vel}$)
 
-The output data represents $\mathsf{S}_{\vec{v}}[\vec{r}, t]$ at each $\vec{r}, t$ and $\vec{v}$ points and is generated as a .npy file. The .npy files have shape () and 
+The output data represents $\mathsf{S}_{\vec{v}}[\vec{r}, t]$ at each $t, \vec{r}$ and $\vec{v}$ points. 
+
+The data is generated as .npy files with shape $(N_{t}, N_{sp}, N_{vel}, 3)$ and $(N_{t}, N_{sp}, N_{sp}, N_{vel}, 3)$ for `1DBoxsolver.py` and `2DBoxsolver.py` respectively.   
