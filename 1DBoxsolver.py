@@ -46,7 +46,7 @@ arr1 = []
 solver.set_initial_value(InitialPolarization_vector, t_min)
 for i in range(300):
     solver.integrate(solver.t+delta_t)
-    arr1.append(np.reshape(solver.y, (Nxdiv, 128, 3))[:, :, :])
+    arr1.append(np.reshape(solver.y, (N_sp, N_vel, 3))[:, :, :])
     np.save("LinearApt8.npy", np.array(arr1))
 
  
