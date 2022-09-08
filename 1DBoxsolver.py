@@ -44,7 +44,7 @@ solver = spi.ode(func)
 solver.set_integrator(name = 'zvode', method = 'BDF', nsteps = 5000000000, atol = 1e-9, rtol = 1e-9)
 arr1 = []
 solver.set_initial_value(InitialPolarization_vector, t_min)
-for i in range(300):
+for i in range(N_t):
     solver.integrate(solver.t+delta_t)
     arr1.append(np.reshape(solver.y, (N_sp, N_vel, 3))[:, :, :])
     np.save("LinearApt8.npy", np.array(arr1))
