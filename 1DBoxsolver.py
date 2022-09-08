@@ -20,6 +20,7 @@ N = N_sp*N_vel*3
 x_arr = np.linspace(x_min, x_max, N_sp)
 v_x = np.linspace(v_min, v_max, N_vel)
 t = np.linspace(t_min, t_max, N_t)
+delta_t = t[1]-t[0]
 def func(t, Polarization_vector):   
     Interval = x_max-x_min
     S = np.reshape(Polarization_vector, N).astype(np.complex64)
@@ -30,35 +31,19 @@ def func(t, Polarization_vector):
     for i in range(N_vel):
         veltensor[i, :] = v_x[i]
     veltensor[:, 0] = 1j
-    Selfpart0 = np.einsum('ij,ki...->kj...', vel_arr, rho)
-    Selfpart1 = -np.einsum('ij,kj...->ki...', vel_arr, Selfpart0)*(vel_arr1[1]-vel_arr1[0])
-    tot_Ham = Selfpart1
-    Commutator = np.cross(tot_Ham, rho)
+    Hamiltonian = np.einsum('ij,ki...->kj...', veltensor, Stensor)
+    Hamiltoniantensor = -np.einsum('ij,kj...->ki...', veltensor, Stensor)*(v_x[1]-v_x[0])
+    Crossproduct = np.cross(Hamiltoniantensor, Stensor)
     for m in range(N_vel):
         for n in range(3):
-            gradient1[:,m,n] = vel_arr[m,1]*(-1.0)*sp.diff(rho[:,m,n], period = Interval)
-    gradient2 = np.reshape(gradient1, N).astype(np.complex64)
-    Commutator1 = np.reshape(Commutator, N).astype(np.complex64)
-    rhs =  gradient2 + Commutator1
-    return rhs
-x_arr = np.linspace(x_ini, x_fin, N_sp)
-initial = np.reshape(np.zeros(N).astype(np.complex64), (Nxdiv, Nof, Ndim))
-vel_arr = np.linspace(-1, 1, 128).astype(np.complex64)
-for i in range(Nxdiv):
-    initial[i, 0:64, 2] = (2-2*0.8)*vel_arr[0:64]
-    initial[i, 64:128, 2] = 2*vel_arr[64:128]
-t = np.linspace(0.0, 50.0, Ntimediv)
-x_arr = np.linspace(0.0, 115, Nxdiv)
-initial[L, :, 0] = 10**(-6)
-initial[L, :, 1] = -10**(-6)
-initial2 = np.reshape(initial, N).astype(np.complex64)
-Ntimediv = 500
-delta_t = t[1]-t[0]
+            Advectiontensor[:,m,n] = veltensor[m,1]*(-1.0)*sp.diff(Stensor[:,m,n], period = Interval)
+        RHS = np.reshape(Advectiontensor+Crossproduct, N).astype(np.complex64)
+    return RHS
+InitialPolarization_vector = np.load('.npy', mmap = 'r')
 solver = spi.ode(func)
-solver.set_integrator(name = 'zvode', method = 'BDF', nsteps = 5000000000, atol = 1e-6, rtol = 1e-6)
-#tim2 = time.time() - start
+solver.set_integrator(name = 'zvode', method = 'BDF', nsteps = 5000000000, atol = 1e-9, rtol = 1e-9)
 arr1 = []
-solver.set_initial_value(initial2, 0.0)
+solver.set_initial_value(InitialPolarization_vector, t_min)
 for i in range(300):
     solver.integrate(solver.t+delta_t)
     arr1.append(np.reshape(solver.y, (Nxdiv, 128, 3))[:, :, :])
