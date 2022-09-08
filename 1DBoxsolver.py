@@ -18,10 +18,10 @@ t_max = Configurations[7]
 N_t = Configurations[8]
 N = N_sp*N_vel*3
 x_arr = np.linspace(x_min, x_max, N_sp)
-v = np.linspace(v_min, v_max, N_vel)
+v_x = np.linspace(v_min, v_max, N_vel)
 t = np.linspace(t_min, t_max, N_t)
 def func(t, Polarization_vector):   
-    Interval = x_fin-x_ini
+    Interval = x_max-x_min
     S = np.reshape(Polarization_vector, N).astype(np.complex64)
     Stensor = np.reshape(S, (N_sp, N_vel, 3)).astype(np.complex64)
     Advection = np.zeros(N).astype(np.complex64)
