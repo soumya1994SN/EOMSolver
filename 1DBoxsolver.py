@@ -1,14 +1,9 @@
 import numpy as np
-import matplotlib
-import matplotlib.pyplot as plt
-import matplotlib.lines as mline
 from scipy.integrate import ode
 from scipy.integrate import complex_ode
 import scipy.integrate as spi
 from scipy import fftpack as sp
 from numpy import ma
-from matplotlib import rc
-import matplotlib.lines as mline
 import time
 import math
 Configurations = np.genfromtxt('Configurations1Dbox.txt')[1, :]
