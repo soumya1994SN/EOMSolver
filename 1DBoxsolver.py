@@ -11,39 +11,40 @@ from matplotlib import rc
 import matplotlib.lines as mline
 import time
 import math
-def func(t, tot_function):
-    Nof = 128
-    Ndim = 3
-    Nxdiv = 2**(12)
-    N = Ndim*Nxdiv*Nof
+Configurations = np.genfromtxt('Configurations1Dbox.txt')[1, :]
+x_ini = Configurations[0]
+x_fin = Configurations[1]
+N_sp = Configurations[2]
+v_min = Configurations[3]
+v_max = Configurations[4]
+N_vel = Configurations[5]
+t_min = Configurations[6]
+t_max = Configurations[7]
+N_t = Configurations[8]
+N = N_sp*N_vel*3
+def func(t, tot_function):   
+    Interval = x_fin-x_ini
     rhs = np.reshape(tot_function, N).astype(np.complex64)
-    rho = np.reshape(rhs, (Nxdiv, Nof, Ndim)).astype(np.complex64)
+    rho = np.reshape(rhs, (N_sp, N_vel, 3)).astype(np.complex64)
     gradient0 = np.zeros(N).astype(np.complex64)
-    gradient1 = np.reshape(gradient0, (Nxdiv, Nof, Ndim)).astype(np.complex64)
-    vel_arr = np.reshape(np.zeros(Nof*2).astype(np.complex64), (Nof, 2 ))
+    gradient1 = np.reshape(gradient0, (N_sp, N_vel, 3)).astype(np.complex64)
+    vel_arr = np.reshape(np.zeros(N_vel*2).astype(np.complex64), (N_vel, 2 ))
     vel_arr1 = np.linspace(-1, 1, 128).astype(np.complex64)
     for i in range(128):
         vel_arr[i, :] = vel_arr1[i]
     vel_arr[:, 0] = 1j
     Selfpart0 = np.einsum('ij,ki...->kj...', vel_arr, rho)
     Selfpart1 = -np.einsum('ij,kj...->ki...', vel_arr, Selfpart0)*(vel_arr1[1]-vel_arr1[0])
-    tot_Ham = Selfpart1*5
+    tot_Ham = Selfpart1
     Commutator = np.cross(tot_Ham, rho)
-    for m in range(Nof):
-        for n in range(Ndim):
-            gradient1[:,m,n] = vel_arr[m,1]*(-1.0)*sp.diff(rho[:,m,n], period = 115)
+    for m in range(N_vel):
+        for n in range(3):
+            gradient1[:,m,n] = vel_arr[m,1]*(-1.0)*sp.diff(rho[:,m,n], period = Interval)
     gradient2 = np.reshape(gradient1, N).astype(np.complex64)
     Commutator1 = np.reshape(Commutator, N).astype(np.complex64)
     rhs =  gradient2 + Commutator1
     return rhs
-Nof = 128
-Ndim = 3
-a = 12
-Nxdiv = 2**a
-Ntimediv = 500
-N = Ndim*Nof*Nxdiv
-L = 2**(a-1)
-x_arr = np.linspace(0.0, 115, Nxdiv)
+x_arr = np.linspace(x_ini, x_fin, N_sp)
 initial = np.reshape(np.zeros(N).astype(np.complex64), (Nxdiv, Nof, Ndim))
 vel_arr = np.linspace(-1, 1, 128).astype(np.complex64)
 for i in range(Nxdiv):
@@ -65,10 +66,7 @@ for i in range(300):
     solver.integrate(solver.t+delta_t)
     arr1.append(np.reshape(solver.y, (Nxdiv, 128, 3))[:, :, :])
     np.save("LinearApt8.npy", np.array(arr1))
-#    print(arr1)
-#tim3 = time.time() - start
-#arr9 = np.array(["--- %s seconds ---" %(start), "--- %s seconds ---" %(tim1), "--- %s seconds ---" %(tim2), "--- %s seconds ---" %(tim3)])
-#np.save("10000Continuousmodesabsnew7time100.npy", arr9)
+
  
 
 
