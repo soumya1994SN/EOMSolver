@@ -44,7 +44,7 @@ def RHS(t, Polarization_vector):
     return RHS
 #Line No. 46: Initializing the polarization vector components using data from Initial.py code 
 InitialPolarization_vector = np.load('Initialval.npy', mmap = 'r')
-#Line No. 48-55: Solving the set of O.D.E defined through the function "RHS" as a function of time
+#Line No. 48-55: Solving the set of ODEs defined through the function "RHS" as a function of time
 solver = spi.ode(RHS)
 solver.set_integrator(name = 'zvode', method = 'BDF', nsteps = 5000000000, atol = 1e-9, rtol = 1e-9)
 arr1 = []
