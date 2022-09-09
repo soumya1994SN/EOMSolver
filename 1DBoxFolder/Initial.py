@@ -7,7 +7,7 @@ Nsp = int(Configurations[2])
 vmin = int(Configurations[3])
 vmax = int(Configurations[4])
 Nvel = int(Configurations[5])
-interval = (zmax-zmax)*0.5
+interval = (zmax-zmin)*0.5
 def ELN(v): #Definition of the ELN distribution
     return 6*v
 def Strans0ini(z, v): # e^1 component of S_v[z, t] as a function of z and v at t=0 
