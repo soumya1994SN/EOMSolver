@@ -24,7 +24,7 @@ v = np.linspace(vmin, vmax, Nvel)
 t = np.linspace(tmin, tmax, Nt)
 delta_t = t[1]-t[0]
 Interval = xmax-xmin
-#Line No. 28-44 : Defining the right hand side for the discretized version of Eq.(3.2.1) (after shifting the advective term to right hand side) in terms of time and the components of the polarization vector  
+#Line No. 28-44 : Defining the right hand side for the discretized version of Eq.(3.2.1) (after shifting the advective term to right hand side) in terms of tensor array and as a function of time as well as the components of the polarization vector  
 def func(t, Polarization_vector):   
     S = np.reshape(Polarization_vector, N).astype(np.complex64) #
     Stensor = np.reshape(S, (N_sp, N_vel, 3)).astype(np.complex64)
