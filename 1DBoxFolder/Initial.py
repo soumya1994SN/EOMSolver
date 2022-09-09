@@ -25,6 +25,6 @@ for i in range(Nsp):
         arr[i, j, 0] = Strans0ini(z_arr[i], v_arr[j])*ELN(v_arr[j])
         arr[i, j, 1] = Strans1ini(z_arr[i], v_arr[j])*ELN(v_arr[j])
         arr[i, j, 2] = Sparaini(z_arr[i], v_arr[j])*ELN(v_arr[j])
-np.save("Initialval.npy", arr) 
+np.save("Initialval.npy", np.reshape(arr, Nsp*Nvel*3)) 
 
 
