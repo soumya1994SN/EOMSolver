@@ -24,15 +24,15 @@ v = np.linspace(vmin, vmax, Nvel)
 t = np.linspace(tmin, tmax, Nt)
 delta_t = t[1]-t[0]
 Interval = xmax-xmin
-#Line No. 28-44 : Defining the right hand side for the discretized version of Eq.(3.2.1) (after shifting the advective term to right hand side) in terms of a tensor array and as a function of time as well as the components of the polarization vector  
+#Line No. 28-44 : Defining the right hand side for the discretized version of Eq.(3.2.1) (after shifting the advective term to right hand side) in terms of a tensor array and as a function of time as well as the components of the polarization vector. Stensor, Advectiontensor, Hamiltoniantensor respectively indicate tensors or multidimensional arrays which define the polarization vectors, spatial gradient term and the self-interaction Hamiltonian respectively for each spatial location and velocity mode. 
 def func(t, Polarization_vector):   
     S = np.reshape(Polarization_vector, N).astype(np.complex64)  
     Stensor = np.reshape(S, (N_sp, N_vel, 3)).astype(np.complex64) 
     Advection = np.zeros(N).astype(np.complex64)  
     Advectiontensor = np.reshape(Advection, (N_sp, N_vel, 3)).astype(np.complex64)
     veltensor = np.reshape(np.zeros(N_vel*2).astype(np.complex64), (N_vel, 2 ))
-    for i in range(N_vel):        veltensor[i, :] = v_x[i]
-
+    for i in range(N_vel):        
+        veltensor[i, :] = v_x[i]
     veltensor[:, 0] = 1j
     Hamiltonian = np.einsum('ij,ki...->kj...', veltensor, Stensor)
     Hamiltoniantensor = -np.einsum('ij,kj...->ki...', veltensor, Stensor)*(v_x[1]-v_x[0])
