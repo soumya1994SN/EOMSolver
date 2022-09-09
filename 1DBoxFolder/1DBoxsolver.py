@@ -39,7 +39,7 @@ def func(t, Polarization_vector):
             Advectiontensor[:,m,n] = veltensor[m,1]*(-1.0)*sp.diff(Stensor[:,m,n], period = Interval)
         RHS = np.reshape(Advectiontensor+Crossproduct, N).astype(np.complex64)
     return RHS
-InitialPolarization_vector = np.load('.npy', mmap = 'r')
+InitialPolarization_vector = np.load('Initialval.npy', mmap = 'r')
 solver = spi.ode(func)
 solver.set_integrator(name = 'zvode', method = 'BDF', nsteps = 5000000000, atol = 1e-9, rtol = 1e-9)
 arr1 = []
