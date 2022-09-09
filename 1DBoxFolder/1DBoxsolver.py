@@ -52,7 +52,7 @@ solver.set_initial_value(InitialPolarization_vector, tmin)
 for i in range(Nt):
     solver.integrate(solver.t+delta_t)
     arr1.append(np.reshape(solver.y, (Nsp, Nvel, 3))[:, :, :])
-    np.save("LinearApt8.npy", np.array(arr1))
+    np.save("LinearApt8.npy",  np.array(arr1))
 
  
 
