@@ -1,2 +1,0 @@
-zmin   zmax   Nsp   vmin   vmax   Nvel   tmin   tmax   Nt     
-0      100    4096   -1     1      128    0      30    300
